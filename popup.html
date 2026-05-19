@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>自动滚动助手</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <header>
+      <div class="logo-area">
+        <svg class="logo-svg" width="24" height="24" viewBox="0 0 128 128">
+          <circle cx="64" cy="64" r="58" fill="rgba(124, 77, 255, 0.2)" stroke="#7c4dff" stroke-width="6"/>
+          <path d="M32,48 L64,80 L96,48" fill="none" stroke="#00e5ff" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M32,74 L64,106 L96,74" fill="none" stroke="#7c4dff" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <h1>自动滚动助手</h1>
+      </div>
+      <div class="status-badge" id="status-badge">
+        <span class="status-dot"></span>
+        <span class="status-text" id="status-text">未运行</span>
+      </div>
+    </header>
+
+    <!-- Main Controller Card -->
+    <div class="card main-control">
+      <button class="play-btn" id="play-btn" aria-label="切换滚动状态">
+        <!-- Play Icon -->
+        <svg class="icon-play" id="icon-play" viewBox="0 0 24 24">
+          <path d="M8 5v14l11-7z" fill="currentColor"/>
+        </svg>
+        <!-- Pause Icon -->
+        <svg class="icon-pause" id="icon-pause" viewBox="0 0 24 24" style="display: none;">
+          <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" fill="currentColor"/>
+        </svg>
+      </button>
+      <div class="control-label" id="control-label">点击开始自动滚动</div>
+    </div>
+
+    <!-- Speed Adjustment Card -->
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">滚动速度</span>
+        <span class="value-display" id="speed-val">40 px/s</span>
+      </div>
+      <div class="slider-container">
+        <input type="range" id="speed-slider" min="1" max="150" value="40" class="slider">
+      </div>
+    </div>
+
+    <!-- Mode Selector Card -->
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">滚动模式</span>
+      </div>
+      <div class="mode-selector">
+        <button class="mode-tab active" id="mode-smooth" data-mode="smooth">平滑</button>
+        <button class="mode-tab" id="mode-interval" data-mode="interval">定距</button>
+      </div>
+      
+      <!-- Interval settings (collapsible) -->
+      <div class="interval-settings" id="interval-settings-group" style="display: none;">
+        <div class="card-header sub-header">
+          <span class="card-title sub-title">单次时间间隔</span>
+          <span class="value-display sub-val" id="interval-val">3 秒</span>
+        </div>
+        <div class="slider-container">
+          <input type="range" id="interval-slider" min="1" max="30" value="3" class="slider sub-slider">
+        </div>
+        
+        <div class="card-header sub-header">
+          <span class="card-title sub-title">单次滚动距离 (屏)</span>
+          <span class="value-display sub-val" id="dist-val">0.5 屏</span>
+        </div>
+        <div class="slider-container">
+          <input type="range" id="dist-slider" min="0.1" max="2.0" step="0.1" value="0.5" class="slider sub-slider">
+        </div>
+      </div>
+    </div>
+
+    <!-- Options Card -->
+    <div class="card options-card">
+      <div class="option-row">
+        <div class="option-info">
+          <span class="option-label">触底自动停止</span>
+          <span class="option-desc">滚动到页面底部时自动暂停</span>
+        </div>
+        <label class="switch">
+          <input type="checkbox" id="stop-bottom-toggle" checked>
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+    </div>
+
+    <!-- Footer Help -->
+    <footer>
+      <div class="shortcut-tip">
+        快捷键：按下 <span class="kbc-key">⌥ Option</span> + <span class="kbc-key">S</span> 快速启停
+      </div>
+    </footer>
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>
