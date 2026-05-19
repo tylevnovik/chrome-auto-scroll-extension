@@ -29,6 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initSettings();
   connectToActiveTab();
   setupEventListeners();
+  updateShortcutTip();
 });
 
 // Load settings from storage and apply to UI
@@ -56,6 +57,20 @@ function initSettings() {
 
     // Toggle
     stopBottomToggle.checked = settings.stopAtBottom;
+  });
+}
+
+// Detect OS and update shortcut display
+function updateShortcutTip() {
+  chrome.runtime.getPlatformInfo((info) => {
+    const modifierKey = document.getElementById('modifier-key');
+    if (modifierKey) {
+      if (info.os === 'mac') {
+        modifierKey.textContent = '⌥ Option';
+      } else {
+        modifierKey.textContent = 'Alt';
+      }
+    }
   });
 }
 
