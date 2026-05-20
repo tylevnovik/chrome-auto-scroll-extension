@@ -36,7 +36,8 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         mode,
         intervalSeconds,
         intervalDistance,
-        stopAtBottom
+        stopAtBottom,
+        pageTheme: getPageTheme()
       });
       break;
 
@@ -228,7 +229,8 @@ function notifyStateChange() {
       mode,
       intervalSeconds,
       intervalDistance,
-      stopAtBottom
+      stopAtBottom,
+      pageTheme: getPageTheme()
     }
   }).catch(() => {
     // Ignore error when popup is closed (no active listener)
@@ -241,6 +243,40 @@ function notifyReachedBottom() {
   }).catch(() => {
     // Ignore error when popup is closed
   });
+}
+
+// Detect page theme based on background color brightness (relative luminance)
+function getPageTheme() {
+  try {
+    let bodyBg = window.getComputedStyle(document.body).backgroundColor;
+    let htmlBg = window.getComputedStyle(document.documentElement).backgroundColor;
+    
+    let colorStr = bodyBg;
+    if (!colorStr || colorStr === 'rgba(0, 0, 0, 0)' || colorStr === 'transparent') {
+      colorStr = htmlBg;
+    }
+    
+    // If still transparent/invalid, default to light
+    if (!colorStr || colorStr === 'rgba(0, 0, 0, 0)' || colorStr === 'transparent') {
+      colorStr = 'rgb(255, 255, 255)';
+    }
+
+    let rgb = colorStr.match(/\d+/g);
+    if (!rgb || rgb.length < 3) {
+      return 'light';
+    }
+
+    let r = parseInt(rgb[0]);
+    let g = parseInt(rgb[1]);
+    let b = parseInt(rgb[2]);
+
+    // YIQ formula for relative luminance
+    let brightness = (r * 299 + g * 587 + b * 114) / 1000;
+    return brightness < 140 ? 'dark' : 'light';
+  } catch (e) {
+    console.warn('Failed to detect page theme:', e);
+    return 'light';
+  }
 }
 
 // Optional user interaction interceptor:

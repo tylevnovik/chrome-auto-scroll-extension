@@ -13,6 +13,65 @@
   --shadow-glow-cyan: 0 0 15px rgba(0, 229, 255, 0.4);
   --shadow-glow-violet: 0 0 15px rgba(124, 77, 255, 0.4);
   --transition-smooth: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+
+  /* Theme-specific overrides defaulting to dark mode values */
+  --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  --card-hover-border: rgba(255, 255, 255, 0.12);
+  --card-hover-shadow: 0 6px 24px rgba(0, 0, 0, 0.3);
+  --value-bg: rgba(0, 229, 255, 0.1);
+  --sub-value-bg: rgba(124, 77, 255, 0.1);
+  --logo-text-gradient: linear-gradient(90deg, #ffffff 0%, #cbd5e1 100%);
+  --slider-track: rgba(255, 255, 255, 0.1);
+  --switch-bg: rgba(255, 255, 255, 0.1);
+  --switch-border: rgba(255, 255, 255, 0.05);
+  --kbc-key-bg: rgba(255, 255, 255, 0.08);
+  --kbc-key-border: rgba(255, 255, 255, 0.1);
+  --mode-selector-bg: rgba(255, 255, 255, 0.04);
+  --mode-selector-border: rgba(255, 255, 255, 0.03);
+  --mode-tab-hover-bg: rgba(255, 255, 255, 0.03);
+  --mode-tab-active-bg: rgba(255, 255, 255, 0.1);
+  --mode-tab-active-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  --badge-bg: rgba(255, 255, 255, 0.05);
+  --badge-border: rgba(255, 255, 255, 0.05);
+  --border-separator: rgba(255, 255, 255, 0.05);
+  --header-border: rgba(255, 255, 255, 0.08);
+  --logo-shadow: drop-shadow(0 0 4px rgba(124, 77, 255, 0.6));
+  --scrollbar-thumb: rgba(255, 255, 255, 0.1);
+}
+
+body.theme-light {
+  --bg-gradient: linear-gradient(135deg, #f5f5f7 0%, #e8e8ed 50%, #ffffff 100%);
+  --card-bg: rgba(255, 255, 255, 0.7);
+  --card-border: rgba(0, 0, 0, 0.06);
+  --text-primary: #1d1d1f;
+  --text-secondary: rgba(29, 29, 31, 0.65);
+  --text-muted: rgba(29, 29, 31, 0.4);
+  
+  --shadow-glow-cyan: 0 0 10px rgba(0, 180, 200, 0.2);
+  --shadow-glow-violet: 0 0 10px rgba(100, 50, 220, 0.2);
+  
+  --card-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+  --card-hover-border: rgba(0, 0, 0, 0.1);
+  --card-hover-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+  --value-bg: rgba(0, 180, 200, 0.08);
+  --sub-value-bg: rgba(100, 50, 220, 0.08);
+  --logo-text-gradient: linear-gradient(90deg, #1d1d1f 0%, #434345 100%);
+  --slider-track: rgba(0, 0, 0, 0.06);
+  --switch-bg: rgba(0, 0, 0, 0.06);
+  --switch-border: rgba(0, 0, 0, 0.04);
+  --kbc-key-bg: rgba(0, 0, 0, 0.04);
+  --kbc-key-border: rgba(0, 0, 0, 0.06);
+  --mode-selector-bg: rgba(0, 0, 0, 0.03);
+  --mode-selector-border: rgba(0, 0, 0, 0.02);
+  --mode-tab-hover-bg: rgba(0, 0, 0, 0.02);
+  --mode-tab-active-bg: rgba(255, 255, 255, 0.95);
+  --mode-tab-active-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  --badge-bg: rgba(0, 0, 0, 0.03);
+  --badge-border: rgba(0, 0, 0, 0.04);
+  --border-separator: rgba(0, 0, 0, 0.04);
+  --header-border: rgba(0, 0, 0, 0.06);
+  --logo-shadow: drop-shadow(0 0 2px rgba(124, 77, 255, 0.3));
+  --scrollbar-thumb: rgba(0, 0, 0, 0.15);
 }
 
 * {
@@ -39,7 +98,7 @@ body {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.1);
+  background: var(--scrollbar-thumb);
   border-radius: 4px;
 }
 
@@ -56,7 +115,7 @@ header {
   justify-content: space-between;
   align-items: center;
   padding: 4px 0 8px 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid var(--header-border);
 }
 
 .logo-area {
@@ -66,14 +125,14 @@ header {
 }
 
 .logo-svg {
-  filter: drop-shadow(0 0 4px rgba(124, 77, 255, 0.6));
+  filter: var(--logo-shadow);
   animation: float 3s ease-in-out infinite alternate;
 }
 
 h1 {
   font-size: 16px;
   font-weight: 600;
-  background: linear-gradient(90deg, #ffffff 0%, #cbd5e1 100%);
+  background: var(--logo-text-gradient);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -83,10 +142,10 @@ h1 {
   display: flex;
   align-items: center;
   gap: 6px;
-  background: rgba(255, 255, 255, 0.05);
+  background: var(--badge-bg);
   padding: 4px 10px;
   border-radius: 20px;
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--badge-border);
   transition: var(--transition-smooth);
 }
 
@@ -133,13 +192,13 @@ h1 {
   border: 1px solid var(--card-border);
   border-radius: 12px;
   padding: 12px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  box-shadow: var(--card-shadow);
   transition: var(--transition-smooth);
 }
 
 .card:hover {
-  border-color: rgba(255, 255, 255, 0.12);
-  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.3);
+  border-color: var(--card-hover-border);
+  box-shadow: var(--card-hover-shadow);
 }
 
 .card-header {
@@ -159,7 +218,7 @@ h1 {
   font-size: 13px;
   font-weight: 600;
   color: var(--accent-cyan);
-  background: rgba(0, 229, 255, 0.1);
+  background: var(--value-bg);
   padding: 2px 8px;
   border-radius: 6px;
   min-width: 48px;
@@ -259,7 +318,7 @@ h1 {
   width: 100%;
   height: 6px;
   border-radius: 3px;
-  background: rgba(255, 255, 255, 0.1);
+  background: var(--slider-track);
   outline: none;
   transition: var(--transition-smooth);
 }
@@ -304,7 +363,7 @@ h1 {
 .sub-val {
   font-size: 11px;
   color: var(--accent-violet);
-  background: rgba(124, 77, 255, 0.1);
+  background: var(--sub-value-bg);
   padding: 1px 6px;
 }
 .sub-slider::-webkit-slider-thumb {
@@ -318,10 +377,10 @@ h1 {
 /* Mode Selector Tabs */
 .mode-selector {
   display: flex;
-  background: rgba(255, 255, 255, 0.04);
+  background: var(--mode-selector-bg);
   border-radius: 8px;
   padding: 3px;
-  border: 1px solid rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--mode-selector-border);
 }
 
 .mode-tab {
@@ -340,13 +399,13 @@ h1 {
 
 .mode-tab:hover {
   color: var(--text-primary);
-  background: rgba(255, 255, 255, 0.03);
+  background: var(--mode-tab-hover-bg);
 }
 
 .mode-tab.active {
   color: var(--text-primary);
-  background: rgba(255, 255, 255, 0.1);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  background: var(--mode-tab-active-bg);
+  box-shadow: var(--mode-tab-active-shadow);
   font-weight: 600;
 }
 
@@ -356,7 +415,7 @@ h1 {
   gap: 4px;
   margin-top: 8px;
   padding-top: 6px;
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  border-top: 1px solid var(--border-separator);
   animation: slideDown 0.3s ease-out;
 }
 
@@ -408,10 +467,10 @@ h1 {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: var(--switch-bg);
   transition: .3s;
   border-radius: 20px;
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--switch-border);
 }
 
 .toggle-slider:before {
@@ -450,8 +509,8 @@ footer {
 }
 
 .kbc-key {
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--kbc-key-bg);
+  border: 1px solid var(--kbc-key-border);
   padding: 1px 4px;
   border-radius: 4px;
   font-size: 9.5px;

@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "自动滚动助手 (Auto Scroll Pro)",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "平滑的网页自动滚动工具，支持调节速度、快捷键和优雅的控制面板。",
   "icons": {
     "16": "icon16.png",

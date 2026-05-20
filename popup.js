@@ -23,6 +23,8 @@ const stopBottomToggle = document.getElementById('stop-bottom-toggle');
 let isCurrentlyScrolling = false;
 let currentTabId = null;
 let currentMode = 'smooth';
+let currentTheme = 'dark';
+let activeTabPageTheme = 'light';
 
 // Initialize Popup
 document.addEventListener('DOMContentLoaded', () => {
@@ -39,7 +41,8 @@ function initSettings() {
     mode: 'smooth',
     intervalSeconds: 3,
     intervalDistance: 0.5,
-    stopAtBottom: true
+    stopAtBottom: true,
+    theme: 'dark'
   }, (settings) => {
     // Speed
     speedSlider.value = settings.speed;
@@ -57,7 +60,42 @@ function initSettings() {
 
     // Toggle
     stopBottomToggle.checked = settings.stopAtBottom;
+
+    // Theme
+    updateThemeUI(settings.theme);
   });
+}
+
+// Update theme UI selector state
+function updateThemeUI(theme) {
+  currentTheme = theme;
+  const themes = ['dark', 'light', 'auto'];
+  themes.forEach(t => {
+    const btn = document.getElementById(`theme-${t}`);
+    if (btn) {
+      if (t === theme) {
+        btn.classList.add('active');
+      } else {
+        btn.classList.remove('active');
+      }
+    }
+  });
+  applyTheme();
+}
+
+// Apply selected theme style to popup document body
+function applyTheme() {
+  if (currentTheme === 'dark') {
+    document.body.className = 'theme-dark';
+  } else if (currentTheme === 'light') {
+    document.body.className = 'theme-light';
+  } else if (currentTheme === 'auto') {
+    if (activeTabPageTheme === 'dark') {
+      document.body.className = 'theme-dark';
+    } else {
+      document.body.className = 'theme-light';
+    }
+  }
 }
 
 // Detect OS and update shortcut display
@@ -94,6 +132,10 @@ function connectToActiveTab() {
 
     if (!isScrollableProtocol) {
       showErrorState("受限页面");
+      activeTabPageTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      if (currentTheme === 'auto') {
+        applyTheme();
+      }
       return;
     }
 
@@ -159,6 +201,12 @@ function syncUIWithState(state) {
   if (state.stopAtBottom !== undefined) {
     stopBottomToggle.checked = state.stopAtBottom;
   }
+  if (state.pageTheme !== undefined) {
+    activeTabPageTheme = state.pageTheme;
+    if (currentTheme === 'auto') {
+      applyTheme();
+    }
+  }
 }
 
 // Display error message and disable buttons for restricted pages
@@ -178,6 +226,12 @@ function showErrorState(reason) {
     controlLabel.style.color = '#ff1744'; // Red warning color
   } else {
     controlLabel.textContent = "请刷新当前页面以启动自动滚动";
+  }
+
+  // Apply system preference theme as fallback for restricted pages
+  activeTabPageTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  if (currentTheme === 'auto') {
+    applyTheme();
   }
 }
 
@@ -311,6 +365,19 @@ function setupEventListeners() {
     if (currentMode === 'interval') return;
     setModeUI('interval');
     saveAndSendSettings();
+  });
+
+  // Theme Selection Tabs
+  const themes = ['dark', 'light', 'auto'];
+  themes.forEach(theme => {
+    const btn = document.getElementById(`theme-${theme}`);
+    if (btn) {
+      btn.addEventListener('click', () => {
+        if (currentTheme === theme) return;
+        chrome.storage.local.set({ theme: theme });
+        updateThemeUI(theme);
+      });
+    }
   });
 
   // Listen to messages from content script to sync scrolling status
